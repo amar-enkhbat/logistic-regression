@@ -44,17 +44,6 @@ rgen = np.random.RandomState(1)
 weight = rgen.normal(scale = 1, size = X.shape[1] + 1)
 
 # =============================================================================
-# Plot initial decision boundary
-# =============================================================================
-
-plt.scatter(X_std[y == 0, 0], X_std[y == 0, 1], label = "Class 0")
-plt.scatter(X_std[y == 1, 0], X_std[y == 1, 1], label = "Class 1")
-t = np.arange(-2, 2, 0.1)
-plt.plot(t, (-weight[0] - weight[1] * t)/weight[2])
-plt.legend()
-plt.show()
-
-# =============================================================================
 # Activation function
 # =============================================================================
 
@@ -66,27 +55,40 @@ def sigmoid(x):
 # =============================================================================
 def activate(x):
     return sigmoid(x)
+# =============================================================================
+# Plot initial decision boundary
+# =============================================================================
+
+plt.scatter(X_std[y == 0, 0], X_std[y == 0, 1], label = "Class 0")
+plt.scatter(X_std[y == 1, 0], X_std[y == 1, 1], label = "Class 1")
+t = np.arange(-2, 2, 0.1)
+plt.plot(t, (-weight[0] - weight[1] * t)/weight[2])
+plt.legend()
+plt.show()
 
 # =============================================================================
 # Classification
 # =============================================================================
-eta = 1
-epoch = 10
+
+# Learning Rate
+eta = 0.1
+
+# Number of iterations
+epoch = 100
 
 for i in range(epoch):
-    net_input = np.dot(X_std, weight[1:])
+    net_input = np.dot(X_std, weight[1:]) + weight[0]
     cost = -(y * (np.log(activate(net_input))) + (1 - y) * np.log(1 - activate(net_input)))
-#    print("Error = ", np.average(y - activate(net_input)))
+    
     weight[1:] += eta * np.dot((y - activate(net_input)), X_std)
     weight[0] += eta * np.sum(y - activate(net_input))
     plt.scatter(X_std[y == 0, 0], X_std[y == 0, 1], label = "Class 0")
     plt.scatter(X_std[y == 1, 0], X_std[y == 1, 1], label = "Class 1")
-#    plt.xlim(-2, 2)
-#    plt.ylim(-2, 2)
     t = np.arange(-2, 2, 0.1)
     plt.plot(t, (-weight[0] - weight[1] * t)/weight[2])
     plt.legend()
     plt.show()
-    print(weight)
+#    print(weight)
+    print("Error = ", np.average(y - activate(net_input)))
 
     
