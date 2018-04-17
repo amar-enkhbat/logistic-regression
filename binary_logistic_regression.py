@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 # =============================================================================
 
 X = np.array([[1, 1], [2, 1], [1, 5], [6, 4], [5, 5], [6, 5]], dtype = float)
-y = np.array([0, 0, 1, 1, 1, 1])
+y = np.array([0, 0, 0, 1, 1, 1])
 
 
 # =============================================================================
@@ -32,7 +32,7 @@ def standard_deviation(X):
         sum += (i - mean(X)) ** 2.0
     return (sum / len(X)) ** 0.5
 
-X_std = np.copy(X.astype(float))     
+X_std = np.copy(X)     
 X_std[:, 0] = (X[:, 0] - mean(X[:, 0])) / standard_deviation(X[:, 0])
 X_std[:, 1] = (X[:, 1] - mean(X[:, 1])) / standard_deviation(X[:, 1])
 
@@ -77,11 +77,16 @@ eta = 0.1
 epoch = 100
 
 for i in range(epoch):
+    # Dot product of z (= w1*x1 + w2*x2 + ... + w6*x6) + w0
     net_input = np.dot(X_std, weight[1:]) + weight[0]
+    # Cost function (Cross Entropy Function)
     cost = -(y * (np.log(activate(net_input))) + (1 - y) * np.log(1 - activate(net_input)))
     
+    # Weight update
     weight[1:] += eta * np.dot((y - activate(net_input)), X_std)
     weight[0] += eta * np.sum(y - activate(net_input))
+    
+    # Plot decision boundary
     plt.scatter(X_std[y == 0, 0], X_std[y == 0, 1], label = "Class 0")
     plt.scatter(X_std[y == 1, 0], X_std[y == 1, 1], label = "Class 1")
     t = np.arange(-2, 2, 0.1)
@@ -89,6 +94,4 @@ for i in range(epoch):
     plt.legend()
     plt.show()
 #    print(weight)
-    print("Error = ", np.average(y - activate(net_input)))
-
-    
+    print("Error = ", np.average(abs(y - activate(net_input))))
