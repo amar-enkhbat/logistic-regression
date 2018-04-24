@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 # =============================================================================
 
 X = np.array([[1, 1], [2, 1], [1, 5], [6, 4], [5, 5], [6, 5]], dtype = float)
-y = np.array([0, 0, 0, 1, 1, 1])
+y = np.array([0, 0, 1, 1, 1, 1])
 
 
 # =============================================================================
@@ -48,7 +48,7 @@ weight = rgen.normal(scale = 1, size = X.shape[1] + 1)
 # =============================================================================
 
 def sigmoid(x):
-    return 1.0/(1.0 + np.exp(-np.clip(x, -250, 250)))
+    return 1.0/(1.0 + np.exp(-x))
 
 # =============================================================================
 # Activate
@@ -74,8 +74,10 @@ plt.show()
 eta = 0.1
 
 # Number of iterations
-epoch = 100
+epoch = 20
 
+
+# Fitting/Training
 for i in range(epoch):
     # Dot product of z (= w1*x1 + w2*x2 + ... + w6*x6) + w0
     net_input = np.dot(X_std, weight[1:]) + weight[0]
@@ -93,5 +95,3 @@ for i in range(epoch):
     plt.plot(t, (-weight[0] - weight[1] * t)/weight[2])
     plt.legend()
     plt.show()
-#    print(weight)
-    print("Error = ", np.average(abs(y - activate(net_input))))
