@@ -31,8 +31,9 @@ X, y = wine.iloc[:, 1:].values, wine.iloc[:, 0].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,
                                                     random_state = 1)
-
 plt.hist(X_train)
+plt.title("Histogram of raw data")
+plt.legend()
 plt.show()
 
 # =============================================================================
@@ -47,6 +48,8 @@ X_train_std = stdsc.fit_transform(X_train)
 X_test_std = stdsc.transform(X_test)
 
 plt.hist(X_train_std)
+plt.title("Histogram of standardised data")
+plt.legend()
 plt.show()
 
 # =============================================================================
