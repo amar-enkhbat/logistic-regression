@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -267,4 +266,3 @@ t = np.arange(-2, 2, 0.1)
 plt.plot(t, (-weight[0] - weight[1] * t)/weight[2], label = "Decision boundary")
 plt.legend()
 plt.show()
->>>>>>> 605dffa13b4abad34a15089244edc67cb4a324f7
