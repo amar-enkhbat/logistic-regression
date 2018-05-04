@@ -80,7 +80,7 @@ plt.show()
 # =============================================================================
 
 # Learning Rate
-eta = 0.01
+eta = 0.1
 
 # Max iterations
 epoch = 10000
@@ -96,13 +96,14 @@ for i in range(epoch):
     # Dot product of z (= w1*x1 + w2*x2 + ... + w6*x6) + w0
     net_input = np.dot(X_std, weight[1:]) + weight[0]
     # Cost function (Cross Entropy Function)
-    cost = -y.dot(np.log(activate(net_input))) - ((1 - y).dot(np.log(1 - activate(net_input)))) + cost_lambda * (weight**2).sum()
+    regularization = (cost_lambda * (weight[1:]**2).sum()) / (2 * X.shape[1])
+    cost = -y.dot(np.log(activate(net_input))) - ((1 - y).dot(np.log(1 - activate(net_input)))) + regularization
     cost_series.append(cost)
     
-    # Weight update
-    weight[1:] += eta * np.dot((y - activate(net_input)), X_std)
-    weight[0] += eta * np.sum(y - activate(net_input))
-    
+    # Weight update with regularization
+    weight[0] -= eta * np.sum(activate(net_input) - y)
+    weight[1:] -= eta * (np.dot((activate(net_input) - y), X_std) + cost_lambda * weight[1:] / X.shape[1])
+        
     # Convergence condition
     if(i > 2):
         if (cost_series[-2] - cost_series[-1]) < 0.001:
