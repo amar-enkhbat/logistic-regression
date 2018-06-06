@@ -28,7 +28,8 @@ wine.columns = columns
 from sklearn.model_selection import train_test_split
 
 X, y = wine.iloc[:, 1:].values, wine.iloc[:, 0].values
-
+X = X[y != 3]
+y = y[y != 3]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,
                                                     random_state = 1)
 plt.hist(X_train)
@@ -105,22 +106,22 @@ print("F-measure:\n", metrics.f1_score(expected, predicted, average = None))
 # =============================================================================
 # Testing with new test data
 # =============================================================================
-wine_test = pd.read_csv('wine_test.data')
-X_test, y_test = wine_test.iloc[:, 1:].values, wine_test.iloc[:, 0].values
-X_test_std = stdsc.transform(X_test)
-
-print("\nBest Estimator:\n%s\n"% classifier.best_estimator_)
-#for params, mean_score, all_scores in classifier.grid_scores_:
-#    print("{:.3f} (+/- {:.3f}) for {}".format(mean_score, all_scores.std() / 2, params))
-
-expected = y_test
-predicted = classifier.predict(X_test_std)
-
-print("Accuracy:\n", metrics.accuracy_score(expected, predicted))
-print("Confusion Matrix:\n", metrics.confusion_matrix(expected, predicted))
-print("Precision:\n", metrics.precision_score(expected, predicted, average = None))
-print("Recall:\n", metrics.recall_score(expected, predicted, average = None))
-print("F-measure:\n", metrics.f1_score(expected, predicted, average = None))
+#wine_test = pd.read_csv('wine_test.data')
+#X_test, y_test = wine_test.iloc[:, 1:].values, wine_test.iloc[:, 0].values
+#X_test_std = stdsc.transform(X_test)
+#X_test_std = X_test_std[y_test != 3]
+#y_test = y_test[y_test != 3]
+#
+#print("\nBest Estimator:\n%s\n"% classifier.best_estimator_)
+#
+#expected = y_test
+#predicted = classifier.predict(X_test_std)
+#
+#print("Accuracy:\n", metrics.accuracy_score(expected, predicted))
+#print("Confusion Matrix:\n", metrics.confusion_matrix(expected, predicted))
+#print("Precision:\n", metrics.precision_score(expected, predicted, average = None))
+#print("Recall:\n", metrics.recall_score(expected, predicted, average = None))
+#print("F-measure:\n", metrics.f1_score(expected, predicted, average = None))
 
 # =============================================================================
 # Best parameters

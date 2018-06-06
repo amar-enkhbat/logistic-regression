@@ -86,7 +86,7 @@ eta = 0.1
 epoch = 10000
 
 # Regularization coeffecient
-cost_lambda = 0.1
+cost_lambda = 10
 
 # Cost vector
 cost_series = []
